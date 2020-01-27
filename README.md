@@ -1,19 +1,19 @@
-# fcrypt
-### v1.1.1 ( last update: 27 may 2017 )
+# [fcrypt](https://github.com/warren-bank/node-fcrypt)
+#### fork of [fcrypt _v1.1.1_](https://github.com/lidebug/fcrypt)
 
 Encryption and decryption files and folders.
 
-### Install
+#### Install
 ```javascript
-npm i fcrypt --save-dev
+npm i "@warren-bank/fcrypt" --save-dev
 ```
 
-### Node.js
+#### Node.js
 ```javascript
-var fcrypt = require("fcrypt");
+var fcrypt = require("@warren-bank/fcrypt");
 ```
 
-### Encrypt
+#### Encrypt
 ```javascript
 fcrypt.encrypt({
   key: "mySuperPass1337",
@@ -29,7 +29,7 @@ fcrypt.encrypt({
 });
 ```
 
-### Decrypt
+#### Decrypt
 ```javascript
 fcrypt.decrypt({
   key: "mySuperPass1337",
@@ -45,7 +45,7 @@ fcrypt.decrypt({
 });
 ```
 
-### Extra
+#### Extra
 You could change default crypto method
 ```javascript
 fcrypt.encrypt({

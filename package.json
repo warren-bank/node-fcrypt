@@ -1,29 +1,12 @@
 {
-  "name": "fcrypt",
+  "name": "@warren-bank/fcrypt",
   "version": "1.1.1",
   "description": "Encryption and decryption files and folders",
-  "scripts": {
-    "test": "echo \"created by lidebug\""
-  },
-  "author": {
-    "name": "Li Debug",
-    "email": "returninfinity8@gmail.com"
-  },
+  "main": "source/fcrypt.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lidebug/fcrypt.git"
+    "url": "https://github.com/warren-bank/node-fcrypt.git"
   },
-  "keywords": [
-    "encrypt",
-    "decrypt",
-    "compress",
-    "uncompress",
-    "zip",
-    "archive",
-    "folder",
-    "directory",
-    "file"
-  ],
   "license": "MIT",
   "dependencies": {
     "libraryjs": "1.2.1",
