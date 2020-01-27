@@ -32,7 +32,6 @@ function encrypt(param) {
   //  param.key
   //  param.input
   //  param.output
-  //  param.name
   //  param.callback
   //  param.method
 
