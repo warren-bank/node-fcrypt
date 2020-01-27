@@ -1,6 +1,6 @@
 {
   "name": "@warren-bank/fcrypt",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Encryption and decryption files and folders",
   "main": "source/fcrypt.js",
   "repository": {
@@ -9,7 +9,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "libraryjs": "1.2.1",
     "unzipper": "0.8.8",
     "yazl": "2.4.2"
   }

@@ -6,7 +6,6 @@ var fs = require("fs");
 var yazl = require("yazl"); //compressing
 var unzipper = require("unzipper"); //uncompressing
 var crypto = require("crypto"); //encryption and decryption
-var js = require("libraryjs");
 
 var makedir = require("./makedir.js");
 var Errors = require("./errors.js");
@@ -25,7 +24,7 @@ function folderTree(treePath, callback, end) {
     callback(itemPath, type);
     if (isdir) folderTree(itemPath, callback);
   }
-  if (js.is(end)) end();
+  if (typeof end === 'function') end();
 }
 
 function encrypt(param) {
@@ -40,7 +39,7 @@ function encrypt(param) {
   var errors = new Errors();
 
   //Default
-  param.method = js.or(param.method, "aes-256-cbc");
+  param.method = param.method || "aes-256-cbc";
 
   //Does input folder exist?
   if (!fs.existsSync(param.input)) {
@@ -104,7 +103,7 @@ function decrypt(param) {
   var errors = new Errors();
 
   //Default
-  param.method = js.or(param.method, "aes-256-cbc");
+  param.method = param.method || "aes-256-cbc";
 
   //Does input folder exist?
   if (!fs.existsSync(param.input)) {
@@ -148,7 +147,6 @@ function decrypt(param) {
     });
   ;
 }
-
 
 module.exports = {
   encrypt: encrypt,

@@ -1,5 +1,3 @@
-var js = require("libraryjs");
-
 class Errors {
   constructor() {
     var self = this;
@@ -9,7 +7,7 @@ class Errors {
   addError(msg, code) {
     var self = this;
 
-    if (js.not(msg)) {
+    if (!msg) {
       msg = "Unknown error";
       code = 104;
     }
