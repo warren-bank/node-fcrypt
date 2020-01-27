@@ -1,6 +1,6 @@
 {
   "name": "@warren-bank/fcrypt",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Encryption and decryption files and folders",
   "main": "source/fcrypt.js",
   "repository": {

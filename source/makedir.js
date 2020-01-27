@@ -1,32 +1,24 @@
 var path = require("path");
 var fs = require("fs");
 
-function parsePath(fullpath) {
-  var parse = path.parse(fullpath);
-  var arrpath = [];
-  if (parse.base) arrpath.push(parse.base);
-  if ( parse.root === parse.dir ) return arrpath;
+// copied from:
+//   https://github.com/developersworkspace/DirVault/blob/b9cf877a53576307301c293924baa999e9a89359/src/app.js#L94
+// MIT license:
+//   https://github.com/developersworkspace/DirVault/blob/b9cf877a53576307301c293924baa999e9a89359/LICENSE
 
-  var subpath = parsePath(parse.dir);
-  arrpath = subpath.concat(arrpath);
-  return arrpath;
+function createDirectory(dirpath) {
+    let parts = dirpath.split(path.sep);
+    for (let i = 1; i <= parts.length; i++) {
+        mkdirSync(path.join.apply(null, parts.slice(0, i)));
+    }
 }
 
-function existTree(fullpath, callback) {
-  var tree = parsePath(fullpath);
-  var checkpath = path.parse(fullpath).root;
-  for(let dir of tree) {
-    checkpath = path.join( checkpath, dir);
-    let exists = fs.existsSync(checkpath);
-    callback(exists, checkpath);
-  }
+function mkdirSync(path) {
+    try {
+        fs.mkdirSync(path);
+    } catch (e) {
+        if (e.code != 'EEXIST') throw e;
+    }
 }
 
-function makedirTree(fullpath) {
-  existTree(fullpath, (exists, dirpath) => {
-    if (exists) return;
-    fs.mkdir(dirpath);
-  });
-}
-
-module.exports = makedirTree;
+module.exports = createDirectory;
