@@ -1,6 +1,6 @@
 {
   "name": "@warren-bank/fcrypt",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Library to store an input directory to an encrypted .zip file, and decrypt and extract an input encrypted .zip file to a directory.",
   "main": "source/fcrypt.js",
   "repository": {
