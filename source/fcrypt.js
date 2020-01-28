@@ -50,7 +50,7 @@ function encrypt(param) {
   //create output folder, if it doesn't exist
   makedir(path.dirname(param.output));
 
-  //create ecryptor pipe
+  //create encrypter pipe
   try {
     var encrypt = crypto.createCipher(param.method, param.key);
   }
@@ -104,7 +104,60 @@ function decrypt(param) {
   //Default
   param.method = param.method || "aes-256-cbc";
 
-  //Does input folder exist?
+  //Does input file exist?
+  if (!fs.existsSync(param.input)) {
+    errors.addError("Input file doesn't exist", 101);
+    param.callback(errors);
+    return;
+  }
+
+  //create output folder, if it doesn't exist
+  makedir(path.dirname(param.output));
+
+  //create decrypter pipe
+  try {
+    var decrypt = crypto.createDecipher(param.method, param.key);
+  }
+  catch (err) {
+
+    if (err.message === "Unknown cipher") errors.addError("Incorrect method", 150);
+    else if (err.message === "Key must be a buffer") errors.addError("Incorrect key", 151);
+    else errors.addError("Crypto error", 152);
+    
+    param.callback(errors);
+    return;
+  }
+
+  //Decrypt only
+  var readStream = fs.createReadStream(param.input);
+  readStream
+    .pipe(decrypt)
+    .pipe(fs.createWriteStream( param.output ))
+    .on("error", (err) => {
+      readStream.destroy();
+      errors.addError("Key is incorrect", 303);
+      param.callback(errors);
+    })
+    .on("close", () => {
+      param.callback(errors);
+    });
+  ;
+}
+
+function extract(param) {
+  //include:
+  //  param.key
+  //  param.input
+  //  param.output
+  //  param.callback
+  //  param.method
+
+  var errors = new Errors();
+
+  //Default
+  param.method = param.method || "aes-256-cbc";
+
+  //Does input file exist?
   if (!fs.existsSync(param.input)) {
     errors.addError("Input file doesn't exist", 101);
     param.callback(errors);
@@ -114,7 +167,7 @@ function decrypt(param) {
   //create output folder, if it doesn't exist
   makedir(param.output);
 
-  //create ecryptor pipe
+  //create decrypter pipe
   try {
     var decrypt = crypto.createDecipher(param.method, param.key);
   }
@@ -132,12 +185,9 @@ function decrypt(param) {
   var readStream = fs.createReadStream(param.input);
   readStream
     .pipe(decrypt)
-    .on("error", (err) => {
-      errors.addError("Key is incorrect", 303);
-      readStream.destroy();
-    })
     .pipe(unzipper.Extract({ path: param.output }))
     .on("error", (err) => {
+      readStream.destroy();
       errors.addError("Key is incorrect", 303);
       param.callback(errors);
     })
@@ -149,5 +199,6 @@ function decrypt(param) {
 
 module.exports = {
   encrypt: encrypt,
-  decrypt: decrypt
+  decrypt: decrypt,
+  extract: extract
 }

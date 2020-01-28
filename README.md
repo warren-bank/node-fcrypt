@@ -1,11 +1,11 @@
 # [fcrypt](https://github.com/warren-bank/node-fcrypt)
 #### fork of [fcrypt _v1.1.1_](https://github.com/lidebug/fcrypt)
 
-Encryption and decryption files and folders.
+Library to store an input directory to an encrypted .zip file, and decrypt and extract an input encrypted .zip file to a directory.
 
 #### Install
 ```javascript
-npm i "@warren-bank/fcrypt" --save-dev
+npm i "@warren-bank/fcrypt" --save
 ```
 
 #### Node.js
@@ -16,9 +16,9 @@ var fcrypt = require("@warren-bank/fcrypt");
 #### Encrypt
 ```javascript
 fcrypt.encrypt({
-  key: "mySuperPass1337",
-  input: "./src/private",
-  output: "./src/dest/private.data",
+  key:    "mySuperPass1337",
+  input:  "./src/private",
+  output: "./dst/encrypted.zip.data",
   callback: (errors) => {
     if (errors.exists) {
       errors.console();
@@ -32,9 +32,9 @@ fcrypt.encrypt({
 #### Decrypt
 ```javascript
 fcrypt.decrypt({
-  key: "mySuperPass1337",
-  input: "./src/dest/private.data",
-  output: "./src/output",
+  key:    "mySuperPass1337",
+  input:  "./dst/encrypted.zip.data",
+  output: "./dst/decrypted.zip",
   callback: (errors) => {
     if (errors.exists) {
       errors.console();
@@ -45,17 +45,38 @@ fcrypt.decrypt({
 });
 ```
 
+#### Decrypt and Extract
+```javascript
+fcrypt.extract({
+  key:    "mySuperPass1337",
+  input:  "./dst/encrypted.zip.data",
+  output: "./dst/decrypted",
+  callback: (errors) => {
+    if (errors.exists) {
+      errors.console();
+      return;
+    }
+    console.log("extracted");
+  }
+});
+```
+
 #### Extra
 You could change default crypto method
 ```javascript
 fcrypt.encrypt({
-  key: "mySuperPass1337",
-  input: "./private",
-  output: "./dest/private.data",
-  method: "aes192", // <-- The one
-  callback: () => {
+  method: "aes192", // HERE
+  key:    "mySuperPass1337",
+  input:  "./src/private",
+  output: "./dst/encrypted.zip.data",
+  callback: (errors) => {
+    if (errors.exists) {
+      errors.console();
+      return;
+    }
     console.log("encrypted");
   }
 });
 ```
-Same thing in decrypt()
+
+Same `method` parameter works for `decrypt()` and `extract()`.
